@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Hospital Management System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+         :root {
+            --navy: #102c46;
+            --blue: #164e78;
+            --teal: #079b91;
+            --light: #f4f8fb;
+            --text: #24364a;
+            --muted: #708195;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: white;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            width: min(1160px, 92%);
+            margin: auto;
+        }
+        /* TOP BAR */
+        
+        .topbar {
+            background: var(--navy);
+            color: #dce8f1;
+            font-size: 12px;
+            padding: 9px 0;
+        }
+        
+        .topbar-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .topbar i {
+            color: #57d5c8;
+            margin-right: 6px;
+        }
+        /* HEADER */
+        
+        header {
+            background: white;
+            border-bottom: 1px solid #e9eef3;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            min-height: 85px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand-icon {
+            height: 49px;
+            width: 49px;
+            background: var(--teal);
+            color: white;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+        }
+        
+        .brand h2 {
+            font-size: 17px;
+            color: var(--navy);
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+        
+        .brand p {
+            font-size: 9px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .nav-links a {
+            font-size: 12px;
+            font-weight: 600;
+            color: #40546a;
+            transition: .2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--teal);
+        }
+        
+        .nav-links .nav-button {
+            background: var(--teal);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 5px;
+        }
+        
+        .nav-button:hover {
+            background: var(--navy);
+            color: white !important;
+        }
+        
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: none;
+            color: var(--navy);
+            font-size: 25px;
+            cursor: pointer;
+        }
+        /* HERO */
+        
+        .hero {
+            min-height: 570px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg, rgba(9, 35, 58, .96) 0%, rgba(9, 35, 58, .83) 47%, rgba(9, 35, 58, .15) 100%), url("https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1800&q=85");
+            background-position: center;
+            background-size: cover;
+        }
+        
+        .hero-content {
+            max-width: 650px;
+            padding: 85px 0;
+            color: white;
+        }
+        
+        .hero-label {
+            display: inline-block;
+            color: #70e1d5;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 22px;
+        }
+        
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 59px);
+            line-height: 1.17;
+            font-weight: 800;
+            margin-bottom: 22px;
+        }
+        
+        .hero h1 span {
+            color: #56d6c8;
+        }
+        
+        .hero p {
+            max-width: 540px;
+            color: #d7e3eb;
+            font-size: 14px;
+            line-height: 1.9;
+            margin-bottom: 30px;
+        }
+        
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 22px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .3s;
+        }
+        
+        .btn-primary {
+            background: var(--teal);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #08776f;
+            transform: translateY(-3px);
+        }
+        
+        .btn-outline {
+            border: 1px solid #ffffff85;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: var(--navy);
+        }
+        /* QUICK ACCESS */
+        
+        .quick-section {
+            padding: 65px 0;
+            background: white;
+        }
+        
+        .section-heading {
+            text-align: center;
+            margin-bottom: 38px;
+        }
+        
+        .section-heading span {
+            color: var(--teal);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 29px;
+            margin: 10px 0;
+        }
+        
+        .section-heading p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+        
+        .access-card {
+            border: 1px solid #e7edf2;
+            border-radius: 9px;
+            padding: 30px;
+            transition: .3s;
+            background: white;
+        }
+        
+        .access-card:hover {
+            border-color: var(--teal);
+            box-shadow: 0 15px 35px #102c4610;
+            transform: translateY(-5px);
+        }
+        
+        .access-icon {
+            height: 55px;
+            width: 55px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: #e9f7f5;
+            color: var(--teal);
+            font-size: 22px;
+            margin-bottom: 22px;
+        }
+        
+        .access-card h3 {
+            font-size: 17px;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+        
+        .access-card p {
+            color: var(--muted);
+            font-size: 12px;
+            min-height: 55px;
+        }
+        
+        .access-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--teal);
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 20px;
+        }
+        /* ABOUT */
+        
+        .about {
+            padding: 80px 0;
+            background: var(--light);
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 55px;
+        }
+        
+        .about-image {
+            height: 380px;
+            border-radius: 10px;
+            background: url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=85") center/cover;
+            position: relative;
+        }
+        
+        .about-image::after {
+            content: "";
+            position: absolute;
+            inset: 15px -15px -15px 15px;
+            border: 2px solid var(--teal);
+            border-radius: 10px;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .about-text span {
+            color: var(--teal);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        
+        .about-text h2 {
+            font-size: 31px;
+            line-height: 1.3;
+            color: var(--navy);
+            margin: 15px 0;
+        }
+        
+        .about-text p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+        
+        .feature {
+            display: flex;
+            gap: 13px;
+            margin-top: 18px;
+            align-items: flex-start;
+        }
+        
+        .feature i {
+            color: var(--teal);
+            font-size: 18px;
+            margin-top: 3px;
+        }
+        
+        .feature strong {
+            display: block;
+            color: var(--navy);
+            font-size: 13px;
+        }
+        
+        .feature small {
+            color: var(--muted);
+            font-size: 11px;
+        }
+        /* SERVICES */
+        
+        .services {
+            padding: 75px 0;
+            background: white;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .service {
+            padding: 25px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 1px solid #edf1f5;
+        }
+        
+        .service i {
+            font-size: 25px;
+            color: var(--teal);
+            margin-bottom: 15px;
+        }
+        
+        .service h3 {
+            font-size: 15px;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+        
+        .service p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        /* CTA */
+        
+        .cta {
+            padding: 55px 20px;
+            background: var(--navy);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+        
+        .cta p {
+            font-size: 13px;
+            color: #c4d5e1;
+            margin-bottom: 22px;
+        }
+        /* FOOTER */
+        
+        footer {
+            background: #0a2034;
+            color: #b7c9d7;
+            padding: 55px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-brand h3 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .footer-brand p {
+            font-size: 12px;
+            line-height: 1.9;
+            max-width: 340px;
+        }
+        
+        .footer-column h4 {
+            color: white;
+            font-size: 13px;
+            margin-bottom: 17px;
+        }
+        
+        .footer-column a {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 11px;
+            color: #b7c9d7;
+        }
+        
+        .footer-column a:hover {
+            color: #57d5c8;
+        }
+        
+        .copyright {
+            border-top: 1px solid #ffffff20;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 11px;
+        }
+        /* RESPONSIVE */
+        
+        @media(max-width: 900px) {
+            .nav-links {
+                gap: 13px;
+            }
+            .nav-links a {
+                font-size: 11px;
+            }
+        }
+        
+        @media(max-width: 700px) {
+            .topbar-content {
+                justify-content: center;
+                text-align: center;
+            }
+            .navbar {
+                min-height: 72px;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: stretch;
+                padding: 20px 5%;
+                box-shadow: 0 10px 20px #00000012;
+                gap: 0;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links a {
+                padding: 12px 0;
+                font-size: 13px;
+                border-bottom: 1px solid #edf1f5;
+            }
+            .nav-links .nav-button {
+                text-align: center;
+                margin-top: 12px;
+            }
+            .hero {
+                min-height: 520px;
+                background-position: 60% center;
+            }
+            .hero-content {
+                padding: 65px 0;
+            }
+            .access-grid,
+            .services-grid,
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-grid {
+                gap: 35px;
+            }
+            .about-image {
+                height: 270px;
+                margin-right: 15px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .section-heading h2 {
+                font-size: 24px;
+            }
+        }
+    
+/* SMART HOSPITAL - UNIFIED PROFESSIONAL THEME */
+:root{--sh-navy:#102b46;--sh-blue:#176b87;--sh-teal:#079b9b;--sh-bg:#f3f7fa;--sh-text:#243b50;--sh-muted:#718397;--sh-border:#e1eaf0;--sh-shadow:0 12px 34px rgba(16,43,70,.075)}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif!important;background:var(--sh-bg)!important;color:var(--sh-text)!important;line-height:1.6}
+header{background:linear-gradient(110deg,var(--sh-navy),#17617a)!important;color:#fff!important;padding:17px max(4%,calc((100% - 1200px)/2))!important;box-shadow:0 5px 20px #102b4618}
+header h2{color:#fff}
+.container,main{max-width:1200px}
+.card,.section,.welcome,.stat,.invoice,.access-card{border:1px solid var(--sh-border)!important;border-radius:16px!important;box-shadow:var(--sh-shadow)!important}
+.card,.section,.welcome{padding:24px!important}
+h1,h2,h3,h4{color:var(--sh-navy)}
+h3{color:var(--sh-blue)}
+button,.btn{border-radius:10px!important;font-family:inherit;transition:transform .2s,box-shadow .2s,filter .2s}
+button:not(:disabled):hover,.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #079b9b25}
+button:not(.logout):not(.delete):not(.danger):not(.back):not(.secondary){background:linear-gradient(110deg,#087e91,#09aaa0);color:#fff}
+input,select,textarea{border:1px solid var(--sh-border)!important;border-radius:10px!important;background:#fbfdfe!important;font-family:inherit!important;transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sh-teal)!important;box-shadow:0 0 0 3px #079b9b18!important}
+label{color:#455a6d}
+table{border-collapse:separate!important;border-spacing:0;overflow:hidden;border-radius:10px}
+th{background:#eaf5f6!important;color:#075b67!important}
+td,th{border-bottom:1px solid var(--sh-border)!important;padding:13px!important}
+tr:hover td{background:#f8fbfc}
+.logout,.delete,.danger{background:#d64550!important;color:#fff!important}
+.back{background:#fff!important;color:var(--sh-navy)!important;border:1px solid var(--sh-border)!important}
+.secondary,.refresh{background:#2563eb!important;color:white!important}
+.hidden{display:none!important}
+@media(max-width:700px){header{padding:15px 4%!important} .container,main{padding-left:14px!important;padding-right:14px!important;margin-top:20px!important}.card,.section,.welcome{padding:18px!important}}
+
+</style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+        <div class="container topbar-content">
+            <div>
+                <i class="fa-solid fa-clock"></i> Smart Healthcare Management
+            </div>
+            <div>
+                <i class="fa-solid fa-shield-halved"></i> Digital Hospital Management Platform
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+
+    <header>
+        <div class="container navbar">
+
+            <a href="index.html" class="brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-hospital"></i>
+                </div>
+                <div>
+                    <h2>SMART HOSPITAL</h2>
+                    <p>MANAGEMENT SYSTEM</p>
+                </div>
+            </a>
+
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#services">Services</a>
+                <a href="doctor.html">Doctors</a>
+                <a href="appointment.html">Appointments</a>
+                <a href="#contact">Contact</a>
+                <a href="patients.html" class="nav-button">Patient Portal</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- HERO -->
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+
+                <span class="hero-label">
+        SMART DIGITAL HEALTHCARE
+      </span>
+
+                <h1>
+                    Better Healthcare.<br>
+                    <span>Smarter Management.</span>
+                </h1>
+
+                <p>
+                    A modern web-based hospital management platform designed to simplify patient registration, hospital administration, appointments and billing.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="patients.html" class="btn btn-primary">
+          Patient Registration
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+                    <a href="appointment.html" class="btn btn-outline">
+          Book Appointment
+          <i class="fa-solid fa-calendar-check"></i>
+        </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK ACCESS -->
+
+    <section class="quick-section">
+        <div class="container">
+
+            <div class="section-heading">
+                <span>QUICK ACCESS</span>
+                <h2>Hospital Management Portals</h2>
+                <p>Access the required hospital management service.</p>
+            </div>
+
+            <div class="access-grid">
+
+                <a href="patients.html" class="access-card">
+                    <div class="access-icon">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <h3>Patients Registration</h3>
+                    <p>
+                        Register patient details and access the patient registration portal.
+                    </p>
+                    <span class="access-link">
+          Open Patient Portal
+          <i class="fa-solid fa-arrow-right"></i>
+        </span>
+                </a>
+
+                <a href="admin.html" class="access-card">
+                    <div class="access-icon">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h3>Owner Login</h3>
+                    <p>
+                        Access the authorized hospital administration and management portal.
+                    </p>
+                    <span class="access-link">
+          Admin Login
+          <i class="fa-solid fa-arrow-right"></i>
+        </span>
+                </a>
+
+                <a href="billing.html" class="access-card">
+                    <div class="access-icon">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>Billing Management</h3>
+                    <p>
+                        Access the hospital billing portal and manage patient billing records.
+                    </p>
+                    <span class="access-link">
+          Open Billing
+          <i class="fa-solid fa-arrow-right"></i>
+        </span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+
+    <section class="about" id="about">
+        <div class="container about-grid">
+
+            <div class="about-image"></div>
+
+            <div class="about-text">
+                <span>ABOUT THE SYSTEM</span>
+
+                <h2>
+                    Transforming Hospital Operations Through Technology
+                </h2>
+
+                <p>
+                    Smart Hospital Management System is a web-based project designed to organize important hospital activities through a centralized digital platform.
+                </p>
+
+                <div class="feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <div>
+                        <strong>Digital Patient Records</strong>
+                        <small>Organized patient registration and records.</small>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <div>
+                        <strong>Appointment Management</strong>
+                        <small>Structured appointment management.</small>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <div>
+                        <strong>Centralized Administration</strong>
+                        <small>Organized access to management functions.</small>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <div>
+                        <strong>Digital Billing</strong>
+                        <small>Manage patient billing records digitally.</small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+
+    <section class="services" id="services">
+        <div class="container">
+
+            <div class="section-heading">
+                <span>OUR PLATFORM</span>
+                <h2>Integrated Management Services</h2>
+                <p>Essential digital tools for hospital operations.</p>
+            </div>
+
+            <div class="services-grid">
+
+                <div class="service">
+                    <i class="fa-solid fa-hospital-user"></i>
+                    <h3>Patient Management</h3>
+                    <p>Patient registration and organized digital records.</p>
+                </div>
+
+                <div class="service">
+                    <i class="fa-solid fa-user-doctor"></i>
+                    <h3>Doctor Management</h3>
+                    <p>Doctor information and hospital staff records.</p>
+                </div>
+
+                <div class="service">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <h3>Appointments</h3>
+                    <p>Appointment scheduling and management.</p>
+                </div>
+
+                <div class="service">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <h3>Billing System</h3>
+                    <p>Digital billing and payment record management.</p>
+                </div>
+
+                <div class="service">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h3>Reports</h3>
+                    <p>Access authorized hospital reports and records.</p>
+                </div>
+
+                <div class="service">
+                    <i class="fa-solid fa-lock"></i>
+                    <h3>Access Management</h3>
+                    <p>Role-based access through the existing system.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+
+    <section class="cta">
+        <div class="container">
+            <h2>Smart Hospital Management System</h2>
+            <p>A digital approach to organized hospital management.</p>
+
+            <a href="patients.html" class="btn btn-primary">
+      Get Started
+      <i class="fa-solid fa-arrow-right"></i>
+    </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer id="contact">
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+                    <h3>
+                        <i class="fa-solid fa-hospital" style="color:#57d5c8"></i> SMART HOSPITAL
+                    </h3>
+
+                    <p>
+                        Smart Hospital Management System is a web-based digital hospital management project focused on organized healthcare administration.
+                    </p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>QUICK LINKS</h4>
+                    <a href="index.html">Home</a>
+                    <a href="#about">About Us</a>
+                    <a href="#services">Services</a>
+                    <a href="doctor.html">Doctors</a>
+                    <a href="appointment.html">Appointments</a>
+                </div>
+
+                <div class="footer-column">
+                    <h4>MANAGEMENT PORTALS</h4>
+                    <a href="patients.html">Patient Registration</a>
+                    <a href="admin.html">Owner Login</a>
+                    <a href="billing.html">Billing</a>
+                    <a href="patient-reports.html">Patient Reports</a>
+                    <a href="records.html">Records</a>
+                </div>
+
+            </div>
+
+            <div class="copyright">
+                © 2026 Smart Hospital Management System. All Rights Reserved.
+                <br> By Aniket Bhandare.
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("navLinks").classList.toggle("active");
+        }
+
+        document.querySelectorAll("#navLinks a").forEach(link => {
+            link.addEventListener("click", () => {
+                document.getElementById("navLinks").classList.remove("active");
+            });
+        });
+    </script>
+
+</body>
+
+</html>

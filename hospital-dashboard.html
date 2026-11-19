@@ -1,0 +1,119 @@
+  <!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Hospital Management</title>
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f0f4f8;
+        }
+
+        header {
+            background: #087e8b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        button {
+            background: #087e8b;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 7px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #087e8b;
+        }
+    
+/* SMART HOSPITAL - UNIFIED PROFESSIONAL THEME */
+:root{--sh-navy:#102b46;--sh-blue:#176b87;--sh-teal:#079b9b;--sh-bg:#f3f7fa;--sh-text:#243b50;--sh-muted:#718397;--sh-border:#e1eaf0;--sh-shadow:0 12px 34px rgba(16,43,70,.075)}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif!important;background:var(--sh-bg)!important;color:var(--sh-text)!important;line-height:1.6}
+header{background:linear-gradient(110deg,var(--sh-navy),#17617a)!important;color:#fff!important;padding:17px max(4%,calc((100% - 1200px)/2))!important;box-shadow:0 5px 20px #102b4618}
+header h2{color:#fff}
+.container,main{max-width:1200px}
+.card,.section,.welcome,.stat,.invoice,.access-card{border:1px solid var(--sh-border)!important;border-radius:16px!important;box-shadow:var(--sh-shadow)!important}
+.card,.section,.welcome{padding:24px!important}
+h1,h2,h3,h4{color:var(--sh-navy)}
+h3{color:var(--sh-blue)}
+button,.btn{border-radius:10px!important;font-family:inherit;transition:transform .2s,box-shadow .2s,filter .2s}
+button:not(:disabled):hover,.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #079b9b25}
+button:not(.logout):not(.delete):not(.danger):not(.back):not(.secondary){background:linear-gradient(110deg,#087e91,#09aaa0);color:#fff}
+input,select,textarea{border:1px solid var(--sh-border)!important;border-radius:10px!important;background:#fbfdfe!important;font-family:inherit!important;transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sh-teal)!important;box-shadow:0 0 0 3px #079b9b18!important}
+label{color:#455a6d}
+table{border-collapse:separate!important;border-spacing:0;overflow:hidden;border-radius:10px}
+th{background:#eaf5f6!important;color:#075b67!important}
+td,th{border-bottom:1px solid var(--sh-border)!important;padding:13px!important}
+tr:hover td{background:#f8fbfc}
+.logout,.delete,.danger{background:#d64550!important;color:#fff!important}
+.back{background:#fff!important;color:var(--sh-navy)!important;border:1px solid var(--sh-border)!important}
+.secondary,.refresh{background:#2563eb!important;color:white!important}
+.hidden{display:none!important}
+@media(max-width:700px){header{padding:15px 4%!important} .container,main{padding-left:14px!important;padding-right:14px!important;margin-top:20px!important}.card,.section,.welcome{padding:18px!important}}
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></head>
+
+<body>
+
+<header>
+    <h1>🏥 Smart Hospital</h1>
+    <p>Hospital Management System</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Welcome Admin!</h2>
+        <p>Smart Hospital Management Dashboard</p>
+    </div>
+
+    <div class="card">
+        <h2>👨‍⚕️ Doctor Management</h2>
+        <p>Manage Hospital Doctors</p>
+        <button>View Doctors</button>
+    </div>
+
+    <div class="card">
+        <h2>🧑 Patient Management</h2>
+        <p>Register New Patients</p>
+        <button>Register Patient</button>
+    </div>
+
+    <div class="card">
+        <h2>📅 Appointment</h2>
+        <p>Manage Patient Appointments</p>
+        <button>Book Appointment</button>
+    </div>
+
+    <div class="card">
+        <h2>💳 Billing System</h2>
+        <p>Manage Hospital Bills</p>
+        <button>Generate Bill</button>
+    </div>
+
+</div>
+
+</body>
+</html>    

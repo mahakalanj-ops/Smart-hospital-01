@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Portal | Smart Hospital</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+         :root {
+            --navy: #102b46;
+            --blue: #176b87;
+            --teal: #079b9b;
+            --light: #f3f8fb;
+            --text: #243b50;
+            --muted: #8293a3;
+            --border: #e1eaf0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        /* HEADER */
+        
+        header {
+            height: 76px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #087e91, #13b8a6);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+        }
+        
+        .brand h2 {
+            font-size: 19px;
+            color: var(--navy);
+            letter-spacing: -.5px;
+        }
+        
+        .brand small {
+            color: var(--muted);
+            font-size: 11px;
+            display: block;
+            margin-top: 3px;
+        }
+        
+        .header-tag {
+            color: var(--teal);
+            background: #e8f8f6;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        /* MAIN */
+        
+        main {
+            max-width: 1180px;
+            margin: 45px auto;
+            padding: 0 22px;
+        }
+        
+        .welcome {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .welcome span {
+            color: var(--teal);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        
+        .welcome h1 {
+            font-size: 32px;
+            color: var(--navy);
+            margin: 12px 0;
+        }
+        
+        .welcome p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        /* CARDS */
+        
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+        
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 12px 35px rgba(16, 43, 70, .06);
+            transition: .3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 40px rgba(16, 43, 70, .10);
+        }
+        
+        .card-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+        
+        .card-icon {
+            width: 49px;
+            height: 49px;
+            border-radius: 14px;
+            background: #e9f8f7;
+            color: var(--teal);
+            display: grid;
+            place-items: center;
+            font-size: 23px;
+        }
+        
+        .login-card .card-icon {
+            background: #edf2ff;
+            color: #4268bb;
+        }
+        
+        .card-heading h2 {
+            font-size: 19px;
+            color: var(--navy);
+            margin-bottom: 5px;
+        }
+        
+        .card-heading p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+        /* INPUTS */
+        
+        .field {
+            margin-bottom: 17px;
+        }
+        
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #455a6d;
+        }
+        
+        .field input,
+        .field select {
+            width: 100%;
+            height: 49px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            background: #fbfdfe;
+            font-size: 14px;
+            color: var(--text);
+            font-family: inherit;
+            transition: .25s;
+        }
+        
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--teal);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(7, 155, 155, .10);
+        }
+        
+        .field input::placeholder {
+            color: #a5b2bd;
+        }
+        
+        .row-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+        }
+        /* BUTTONS */
+        
+        .btn {
+            width: 100%;
+            min-height: 50px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(110deg, #087e91, #09aaa0);
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 8px;
+            font-family: inherit;
+            transition: .3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px #079b9b35;
+        }
+        
+        .login-card .btn {
+            background: linear-gradient(110deg, #173f70, #3479bd);
+        }
+        
+        .btn:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+        /* SECURITY NOTE */
+        
+        .security-note {
+            margin-top: 20px;
+            padding: 13px;
+            border-radius: 10px;
+            background: #f0f8fc;
+            color: #657e91;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+        
+        .security-note b {
+            color: var(--blue);
+        }
+        /* MESSAGE */
+        
+        #msg {
+            display: none;
+            max-width: 800px;
+            margin: 25px auto 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+        
+        #msg.success {
+            display: block;
+            background: #e6f8ed;
+            color: #18733c;
+        }
+        
+        #msg.error {
+            display: block;
+            background: #fff0f0;
+            color: #b52c36;
+        }
+        
+        #msg.info {
+            display: block;
+            background: #eaf5fc;
+            color: #21618c;
+        }
+        /* FOOTER */
+        
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            color: #94a4b1;
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+            margin-top: 50px;
+        }
+        
+        footer strong {
+            color: var(--blue);
+        }
+        /* MOBILE */
+        
+        @media(max-width:750px) {
+            header {
+                padding: 0 18px;
+                height: 68px;
+            }
+            .brand h2 {
+                font-size: 16px;
+            }
+            .header-tag {
+                font-size: 10px;
+                padding: 9px;
+            }
+            main {
+                margin: 32px auto;
+                padding: 0 15px;
+            }
+            .welcome h1 {
+                font-size: 25px;
+            }
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .card {
+                padding: 22px 18px;
+            }
+            .card:hover {
+                transform: none;
+            }
+            footer {
+                margin-top: 30px;
+            }
+        }
+        
+        @media(max-width:380px) {
+            .row-fields {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    
+/* SMART HOSPITAL - UNIFIED PROFESSIONAL THEME */
+:root{--sh-navy:#102b46;--sh-blue:#176b87;--sh-teal:#079b9b;--sh-bg:#f3f7fa;--sh-text:#243b50;--sh-muted:#718397;--sh-border:#e1eaf0;--sh-shadow:0 12px 34px rgba(16,43,70,.075)}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif!important;background:var(--sh-bg)!important;color:var(--sh-text)!important;line-height:1.6}
+header{background:linear-gradient(110deg,var(--sh-navy),#17617a)!important;color:#fff!important;padding:17px max(4%,calc((100% - 1200px)/2))!important;box-shadow:0 5px 20px #102b4618}
+header h2{color:#fff}
+.container,main{max-width:1200px}
+.card,.section,.welcome,.stat,.invoice,.access-card{border:1px solid var(--sh-border)!important;border-radius:16px!important;box-shadow:var(--sh-shadow)!important}
+.card,.section,.welcome{padding:24px!important}
+h1,h2,h3,h4{color:var(--sh-navy)}
+h3{color:var(--sh-blue)}
+button,.btn{border-radius:10px!important;font-family:inherit;transition:transform .2s,box-shadow .2s,filter .2s}
+button:not(:disabled):hover,.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #079b9b25}
+button:not(.logout):not(.delete):not(.danger):not(.back):not(.secondary){background:linear-gradient(110deg,#087e91,#09aaa0);color:#fff}
+input,select,textarea{border:1px solid var(--sh-border)!important;border-radius:10px!important;background:#fbfdfe!important;font-family:inherit!important;transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sh-teal)!important;box-shadow:0 0 0 3px #079b9b18!important}
+label{color:#455a6d}
+table{border-collapse:separate!important;border-spacing:0;overflow:hidden;border-radius:10px}
+th{background:#eaf5f6!important;color:#075b67!important}
+td,th{border-bottom:1px solid var(--sh-border)!important;padding:13px!important}
+tr:hover td{background:#f8fbfc}
+.logout,.delete,.danger{background:#d64550!important;color:#fff!important}
+.back{background:#fff!important;color:var(--sh-navy)!important;border:1px solid var(--sh-border)!important}
+.secondary,.refresh{background:#2563eb!important;color:white!important}
+.hidden{display:none!important}
+@media(max-width:700px){header{padding:15px 4%!important} .container,main{padding-left:14px!important;padding-right:14px!important;margin-top:20px!important}.card,.section,.welcome{padding:18px!important}}
+
+</style>
+</head>
+
+<body>
+
+    <header>
+        <div class="brand">
+            <div class="logo">+</div>
+            <div>
+                <h2>SMART HOSPITAL</h2>
+                <small>Digital Healthcare Management</small>
+            </div>
+        </div>
+
+        <div class="header-tag">PATIENT PORTAL</div>
+    </header>
+
+    <main>
+
+        <section class="welcome">
+            <span>WELCOME TO SMART HOSPITAL</span>
+            <h1>Your Health, Our Priority.</h1>
+            <p>
+                Create your patient account or login to access hospital services and book appointments.
+            </p>
+        </section>
+
+        <section class="cards">
+
+            <!-- REGISTRATION -->
+
+            <div class="card">
+
+                <div class="card-heading">
+                    <div class="card-icon">✚</div>
+                    <div>
+                        <h2>Patient Registration</h2>
+                        <p>Create your new patient account</p>
+                    </div>
+                </div>
+
+                <form id="registerForm">
+
+                    <div class="field">
+                        <label>FULL NAME</label>
+                        <input id="name" type="text" placeholder="Enter your full name" maxlength="80" required>
+                    </div>
+
+                    <div class="row-fields">
+
+                        <div class="field">
+                            <label>AGE</label>
+                            <input id="age" type="number" min="1" max="120" placeholder="Your age" required>
+                        </div>
+
+                        <div class="field">
+                            <label>GENDER</label>
+                            <select id="gender" required>
+       <option value="">Select</option>
+       <option>Male</option>
+       <option>Female</option>
+       <option>Other</option>
+      </select>
+                        </div>
+
+                    </div>
+
+                    <div class="field">
+                        <label>MOBILE NUMBER</label>
+                        <input id="phone" type="tel" maxlength="10" inputmode="numeric" placeholder="10 digit mobile number" required>
+                    </div>
+
+                    <div class="field">
+                        <label>DISEASE / HEALTH PROBLEM</label>
+                        <input id="disease" type="text" maxlength="150" placeholder="Enter health problem" required>
+                    </div>
+
+                    <div class="field">
+                        <label>CREATE PASSWORD</label>
+                        <input id="password" type="password" minlength="8" placeholder="Minimum 8 characters" required>
+                    </div>
+
+                    <button class="btn" id="registerBtn" type="submit">
+     CREATE PATIENT ACCOUNT →
+    </button>
+
+                </form>
+
+                <div class="security-note">
+                    <b>Account Security:</b> Use a strong password. OTP verification is not enabled. Your mobile number is not independently verified.
+                </div>
+
+            </div>
+
+            <!-- LOGIN -->
+
+            <div class="card login-card">
+
+                <div class="card-heading">
+                    <div class="card-icon">♙</div>
+                    <div>
+                        <h2>Patient Login</h2>
+                        <p>Access your existing account</p>
+                    </div>
+                </div>
+
+                <form id="loginForm">
+
+                    <div class="field">
+                        <label>REGISTERED MOBILE NUMBER</label>
+                        <input id="loginPhone" type="tel" maxlength="10" inputmode="numeric" placeholder="Enter mobile number" required>
+                    </div>
+
+                    <div class="field">
+                        <label>PASSWORD</label>
+                        <input id="loginPassword" type="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button class="btn" id="loginBtn" type="submit">
+     LOGIN TO YOUR ACCOUNT →
+    </button>
+
+                </form>
+
+                <div class="security-note">
+                    <b>Secure Login:</b> Only registered patient credentials can be used to access the patient appointment portal.
+                </div>
+
+            </div>
+
+        </section>
+
+        <div id="msg" role="status" aria-live="polite"></div>
+
+    </main>
+
+    <footer>
+        © 2026 <strong>Smart Hospital Management System</strong>
+        <br><br> Digital Healthcare Management Portal
+    </footer>
+
+
+    <!-- FIREBASE -->
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js"; import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"; import { getFirestore,
+        doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js"; const firebaseConfig = { apiKey: "AIzaSyBs2hpFSjbacxGoQgRtMOnOANgKTN_Nkn0", authDomain: "smt-hospital-2.firebaseapp.com", projectId: "smt-hospital-2",
+        storageBucket: "smt-hospital-2.firebasestorage.app", messagingSenderId: "704315438706", appId: "1:704315438706:web:0989f487fc90e52a5af4eb", measurementId: "G-4V8NPEE097" }; const app = initializeApp(firebaseConfig); const auth = getAuth(app);
+        const db = getFirestore(app); const msg = document.getElementById("msg"); function phoneEmail(phone){ return "91" + phone + "@patient.smarthospital.com"; } function showMessage(text,type="info"){ msg.textContent=text; msg.className=type; msg.style.display="block";
+        } function setLoading(button,loading,text){ button.disabled=loading; button.textContent=loading?"PLEASE WAIT...":text; } // REGISTRATION document.getElementById("registerForm") .addEventListener("submit",async(e)=>{ e.preventDefault(); const name=document.getElementById("name").value.trim();
+        const age=Number(document.getElementById("age").value); const gender=document.getElementById("gender").value; const phone=document.getElementById("phone").value.trim(); const disease=document.getElementById("disease").value.trim(); const password=document.getElementById("password").value;
+        const btn=document.getElementById("registerBtn"); if(!/^[0-9]{10}$/.test(phone)){ return showMessage("Please enter a valid 10 digit mobile number.","error"); } if(!Number.isInteger(age)||age
+
+        <1||age>120){ return showMessage("Please enter a valid age.","error"); } if(name.length
+
+            <2 || disease.length<2){ return showMessage( "Please enter valid patient details.", "error"); } if(password.length<8){ return showMessage( "Password must contain at least 8 characters.", "error"); } try{ setLoading(btn,true, "CREATE PATIENT ACCOUNT →");
+                showMessage( "Creating your patient account...", "info"); const credential=await createUserWithEmailAndPassword( auth, phoneEmail(phone), password ); await setDoc( doc(db, "patients",credential.user.uid), { name:name, age:age, gender:gender,
+                phone:phone, disease:disease, createdAt:serverTimestamp() } ); showMessage( "Registration successful! Redirecting to appointment page...", "success" ); location.href="appointment.html" ; }catch(error){ console.error(error); let errorText="Registration failed. Please try again."
+                ; if(error.code==="auth/email-already-in-use" ){ errorText="This mobile number is already registered. Please login." ; } else if(error.code==="auth/weak-password" ){ errorText="Please choose a stronger password." ; } else if(error.code==="permission-denied"
+                ){ errorText="Database permission denied. Please check Firestore rules." ; } else if(error.code==="auth/network-request-failed" ){ errorText="Network error. Please check your internet connection." ; } showMessage(errorText, "error"); }finally{
+                setLoading(btn,false, "CREATE PATIENT ACCOUNT →"); } }); // LOGIN document.getElementById( "loginForm") .addEventListener( "submit",async(e)=>{ e.preventDefault(); const phone=document.getElementById("loginPhone").value.trim(); const password=document.getElementById("loginPassword").value; const btn=document.getElementById("loginBtn"); if(!/^[0-9]{10}$/.test(phone)){ return showMessage("Enter
+                a valid 10 digit mobile number.","error"); } try{ setLoading(btn,true,"LOGIN TO YOUR ACCOUNT →"); showMessage("Verifying your account...","info"); await signInWithEmailAndPassword( auth, phoneEmail(phone), password ); showMessage( "Login
+                successful! Opening appointment page...", "success" ); location.href="appointment.html"; }catch(error){ console.error(error); showMessage( "Login failed. Check your mobile number and password.", "error" ); }finally{ setLoading(btn,false,"LOGIN
+                TO YOUR ACCOUNT →"); } });
+
+    </script>
+
+</body>
+
+</html>

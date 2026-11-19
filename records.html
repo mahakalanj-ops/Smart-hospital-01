@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Records | Smart Hospital</title>
+
+    <style>
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #edf3f7;
+            color: #172b3a;
+        }
+        
+        header {
+            background: #073b4c;
+            color: white;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        header h2 {
+            margin: 0;
+            font-size: 21px
+        }
+        
+        button {
+            border: 0;
+            padding: 11px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .back {
+            background: #fff;
+            color: #073b4c
+        }
+        
+        .logout {
+            background: #d62839;
+            color: white
+        }
+        
+        .container {
+            max-width: 1150px;
+            margin: 20px auto;
+            padding: 15px
+        }
+        
+        .welcome {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 12px #0001;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0001;
+        }
+        
+        .stat h3 {
+            margin: 0;
+            color: #087e8b;
+            font-size: 28px
+        }
+        
+        .stat p {
+            margin: 7px 0 0;
+            color: #637784
+        }
+        
+        .section {
+            background: white;
+            padding: 17px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px #0001;
+        }
+        
+        .section h3 {
+            color: #087e8b;
+            margin-top: 0
+        }
+        
+        .search {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd8df;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        
+        .table-wrap {
+            overflow-x: auto
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+        
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5edf1;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        th {
+            background: #edf6f7;
+            color: #075b67
+        }
+        
+        .delete {
+            background: #d62839;
+            color: white;
+            padding: 7px 10px;
+        }
+        
+        .status {
+            padding: 5px 9px;
+            border-radius: 15px;
+            background: #fff0d8;
+            color: #9b5b00;
+        }
+        
+        #message {
+            padding: 12px;
+            color: #087e45
+        }
+        
+        .hidden {
+            display: none
+        }
+        
+        .denied {
+            max-width: 500px;
+            margin: 70px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+    
+/* SMART HOSPITAL - UNIFIED PROFESSIONAL THEME */
+:root{--sh-navy:#102b46;--sh-blue:#176b87;--sh-teal:#079b9b;--sh-bg:#f3f7fa;--sh-text:#243b50;--sh-muted:#718397;--sh-border:#e1eaf0;--sh-shadow:0 12px 34px rgba(16,43,70,.075)}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif!important;background:var(--sh-bg)!important;color:var(--sh-text)!important;line-height:1.6}
+header{background:linear-gradient(110deg,var(--sh-navy),#17617a)!important;color:#fff!important;padding:17px max(4%,calc((100% - 1200px)/2))!important;box-shadow:0 5px 20px #102b4618}
+header h2{color:#fff}
+.container,main{max-width:1200px}
+.card,.section,.welcome,.stat,.invoice,.access-card{border:1px solid var(--sh-border)!important;border-radius:16px!important;box-shadow:var(--sh-shadow)!important}
+.card,.section,.welcome{padding:24px!important}
+h1,h2,h3,h4{color:var(--sh-navy)}
+h3{color:var(--sh-blue)}
+button,.btn{border-radius:10px!important;font-family:inherit;transition:transform .2s,box-shadow .2s,filter .2s}
+button:not(:disabled):hover,.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #079b9b25}
+button:not(.logout):not(.delete):not(.danger):not(.back):not(.secondary){background:linear-gradient(110deg,#087e91,#09aaa0);color:#fff}
+input,select,textarea{border:1px solid var(--sh-border)!important;border-radius:10px!important;background:#fbfdfe!important;font-family:inherit!important;transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sh-teal)!important;box-shadow:0 0 0 3px #079b9b18!important}
+label{color:#455a6d}
+table{border-collapse:separate!important;border-spacing:0;overflow:hidden;border-radius:10px}
+th{background:#eaf5f6!important;color:#075b67!important}
+td,th{border-bottom:1px solid var(--sh-border)!important;padding:13px!important}
+tr:hover td{background:#f8fbfc}
+.logout,.delete,.danger{background:#d64550!important;color:#fff!important}
+.back{background:#fff!important;color:var(--sh-navy)!important;border:1px solid var(--sh-border)!important}
+.secondary,.refresh{background:#2563eb!important;color:white!important}
+.hidden{display:none!important}
+@media(max-width:700px){header{padding:15px 4%!important} .container,main{padding-left:14px!important;padding-right:14px!important;margin-top:20px!important}.card,.section,.welcome{padding:18px!important}}
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></head>
+
+<body>
+
+    <header>
+        <h2>SMART HOSPITAL | RECORDS</h2>
+        <div>
+            <button class="back" onclick="location.href='admin.html'">Admin Dashboard</button>
+            <button class="logout" id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="welcome">
+            <h2>Hospital Records</h2>
+            <p id="userInfo">Checking authorization...</p>
+            <p id="message">Please wait...</p>
+        </div>
+
+        <div id="recordsArea" class="hidden">
+
+            <div class="stats">
+                <div class="stat">
+                    <h3 id="patientCount">0</h3>
+                    <p>Total Patients</p>
+                </div>
+                <div class="stat">
+                    <h3 id="doctorCount">0</h3>
+                    <p>Total Doctors</p>
+                </div>
+                <div class="stat">
+                    <h3 id="appointmentCount">0</h3>
+                    <p>Total Appointments</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Patient Records</h3>
+                <input class="search" id="patientSearch" placeholder="Search patient name or phone...">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Phone</th>
+                                <th>Created</th>
+                                <th id="patientActionHead">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patientTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Doctor Records</h3>
+                <input class="search" id="doctorSearch" placeholder="Search doctor name or specialization...">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Specialization</th>
+                                <th>Qualification</th>
+                                <th>Phone</th>
+                                <th>Hospital</th>
+                                <th id="doctorActionHead">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Appointment Records</h3>
+                <input class="search" id="appointmentSearch" placeholder="Search patient or doctor...">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Phone</th>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th id="appointmentActionHead">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="denied" class="denied hidden">
+        <h2>Access Denied</h2>
+        <p>You are not authorized to view hospital records.</p>
+        <button class="back" onclick="location.href='admin.html'">
+  Go to Admin Login
+ </button>
+    </div>
+
+    <script type="module">
+
+        import {initializeApp,getApps} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js"; import { getAuth,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"; import { getFirestore,collection,getDocs,doc,getDoc,
+        deleteDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js"; const firebaseConfig={ apiKey:"AIzaSyBs2hpFSjbacxGoQgRtMOnOANgKTN_Nkn0", authDomain:"smt-hospital-2.firebaseapp.com", projectId:"smt-hospital-2", storageBucket:"smt-hospital-2.firebasestorage.app",
+        messagingSenderId:"704315438706", appId:"1:704315438706:web:0989f487fc90e52a5af4eb", measurementId:"G-4V8NPEE097" }; const app=getApps().length ?getApps()[0] :initializeApp(firebaseConfig); const auth=getAuth(app); const db=getFirestore(app);
+        const OWNER_UID="eo6ljmtb7GMjCfNtUEzeDiR4slf1"; let isOwner=false; let patients=[]; let doctors=[]; let appointments=[]; const $=id=>document.getElementById(id); function showMessage(text,error=false){ $("message").textContent=text; $("message").style.color=error?"#b00020":"#087e45";
+        } function cell(value){ const td=document.createElement("td"); td.textContent=value??"-"; return td; } function actionCell(callback){ const td=document.createElement("td"); if(isOwner){ const btn=document.createElement("button"); btn.className="delete";
+        btn.textContent="Delete"; btn.onclick=callback; td.appendChild(btn); }else{ td.textContent="View only"; } return td; } function formatDate(value){ if(!value)return "-"; if(value.toDate){ return value.toDate().toLocaleDateString("en-IN"); } return
+        String(value); } onAuthStateChanged(auth,async user=>{ if(!user){ location.href="admin.html"; return; } try{ isOwner=user.uid===OWNER_UID; if(!isOwner){ const adminSnap=await getDoc(doc(db,"admins",user.uid)); if(!adminSnap.exists()|| adminSnap.data().active!==true){
+        $("userInfo").textContent="Unauthorized account"; $("recordsArea").classList.add("hidden"); $("denied").classList.remove("hidden"); return; } } $("userInfo").textContent= isOwner ?"Logged in as Owner | Full access" :"Logged in as Admin | View
+        only access"; if(isOwner){ $("patientActionHead").textContent="Action"; $("doctorActionHead").textContent="Action"; $("appointmentActionHead").textContent="Action"; }else{ $("patientActionHead").textContent="Permission"; $("doctorActionHead").textContent="Permission";
+        $("appointmentActionHead").textContent="Permission"; } $("recordsArea").classList.remove("hidden"); showMessage("Loading hospital records..."); await loadRecords(); }catch(error){ console.error(error); showMessage("Access or loading error: "+error.message,true);
+        } }); async function loadRecords(){ const [p,d,a]=await Promise.all([ getDocs(collection(db,"patients")), getDocs(collection(db,"doctors")), getDocs(collection(db,"appointments")) ]); patients=p.docs.map(x=>({id:x.id,...x.data()})); doctors=d.docs.map(x=>({id:x.id,...x.data()}));
+        appointments=a.docs.map(x=>({id:x.id,...x.data()})); $("patientCount").textContent=patients.length; $("doctorCount").textContent=doctors.length; $("appointmentCount").textContent=appointments.length; renderPatients(); renderDoctors(); renderAppointments();
+        showMessage("All records loaded successfully."); } function renderPatients(){ const tbody=$("patientTable"); tbody.replaceChildren(); const search=$("patientSearch").value.toLowerCase(); const filtered=patients.filter(p=> (p.name||"").toLowerCase().includes(search)||
+        (p.phone||"").includes(search) ); filtered.forEach(p=>{ const tr=document.createElement("tr"); tr.append( cell(p.name), cell(p.age), cell(p.gender), cell(p.phone), cell(formatDate(p.createdAt)), actionCell(()=>deletePatient(p.id)) ); tbody.appendChild(tr);
+        }); if(!filtered.length){ const tr=document.createElement("tr"); const td=cell("No patient records found."); td.colSpan=6; tr.appendChild(td); tbody.appendChild(tr); } } function renderDoctors(){ const tbody=$("doctorTable"); tbody.replaceChildren();
+        const search=$("doctorSearch").value.toLowerCase(); const filtered=doctors.filter(d=> (d.name||"").toLowerCase().includes(search)|| (d.specialization||"").toLowerCase().includes(search) ); filtered.forEach(d=>{ const tr=document.createElement("tr");
+        tr.append( cell(d.name), cell(d.specialization), cell(d.qualification), cell(d.phone), cell(d.hospitalName), actionCell(()=>deleteDoctor(d.id)) ); tbody.appendChild(tr); }); if(!filtered.length){ const tr=document.createElement("tr"); const td=cell("No
+        doctor records found."); td.colSpan=6; tr.appendChild(td); tbody.appendChild(tr); } } function renderAppointments(){ const tbody=$("appointmentTable"); tbody.replaceChildren(); const search=$("appointmentSearch").value.toLowerCase(); const filtered=appointments.filter(a=>
+        (a.patientName||"").toLowerCase().includes(search)|| (a.doctorName||"").toLowerCase().includes(search) ); filtered.forEach(a=>{ const tr=document.createElement("tr"); tr.append( cell(a.patientName), cell(a.phone), cell(a.doctorName), cell(a.date),
+        cell(a.time), cell(a.status), actionCell(()=>deleteAppointment(a.id)) ); tbody.appendChild(tr); }); if(!filtered.length){ const tr=document.createElement("tr"); const td=cell("No appointment records found."); td.colSpan=7; tr.appendChild(td);
+        tbody.appendChild(tr); } } async function deletePatient(id){ if(!isOwner)return; if(!confirm("Delete this patient record?"))return; try{ await deleteDoc(doc(db,"patients",id)); patients=patients.filter(p=>p.id!==id); $("patientCount").textContent=patients.length;
+        renderPatients(); showMessage("Patient record deleted."); }catch(error){ showMessage("Delete error: "+error.message,true); } } async function deleteDoctor(id){ if(!isOwner)return; if(!confirm("Delete this doctor record?"))return; try{ await deleteDoc(doc(db,"doctors",id));
+        await deleteDoc(doc(db,"publicDoctors",id)); doctors=doctors.filter(d=>d.id!==id); $("doctorCount").textContent=doctors.length; renderDoctors(); showMessage("Doctor record deleted."); }catch(error){ showMessage("Delete error: "+error.message,true);
+        } } async function deleteAppointment(id){ if(!isOwner)return; if(!confirm("Delete this appointment record?"))return; try{ await deleteDoc(doc(db,"appointments",id)); appointments=appointments.filter(a=>a.id!==id); $("appointmentCount").textContent=appointments.length;
+        renderAppointments(); showMessage("Appointment deleted."); }catch(error){ showMessage("Delete error: "+error.message,true); } } $("patientSearch").addEventListener("input",renderPatients); $("doctorSearch").addEventListener("input",renderDoctors);
+        $("appointmentSearch").addEventListener("input",renderAppointments); $("logoutBtn").addEventListener("click",async()=>{ await signOut(auth); location.href="admin.html"; });
+
+    </script>
+</body>
+
+</html>

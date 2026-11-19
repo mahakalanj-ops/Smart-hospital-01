@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patient Appointment | Smart Hospital</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:Arial;background:#edf4f7;margin:0;padding:15px;color:#173042}
+.container{max-width:600px;margin:20px auto;background:white;padding:22px;border-radius:15px;box-shadow:0 5px 25px #0001}
+h2{color:#087e8b;text-align:center}
+input,select,textarea,button{width:100%;padding:13px;margin:8px 0;border:1px solid #ccd8df;border-radius:8px;font-size:15px}
+button{background:#087e8b;color:white;border:0;font-weight:bold;cursor:pointer}
+.logout{background:#b52b37}
+.appointment{padding:14px;margin:12px 0;background:#f0f7f8;border-radius:9px;border-left:4px solid #087e8b}
+small{color:#607782}
+#msg{padding:10px}
+
+/* SMART HOSPITAL - UNIFIED PROFESSIONAL THEME */
+:root{--sh-navy:#102b46;--sh-blue:#176b87;--sh-teal:#079b9b;--sh-bg:#f3f7fa;--sh-text:#243b50;--sh-muted:#718397;--sh-border:#e1eaf0;--sh-shadow:0 12px 34px rgba(16,43,70,.075)}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif!important;background:var(--sh-bg)!important;color:var(--sh-text)!important;line-height:1.6}
+header{background:linear-gradient(110deg,var(--sh-navy),#17617a)!important;color:#fff!important;padding:17px max(4%,calc((100% - 1200px)/2))!important;box-shadow:0 5px 20px #102b4618}
+header h2{color:#fff}
+.container,main{max-width:1200px}
+.card,.section,.welcome,.stat,.invoice,.access-card{border:1px solid var(--sh-border)!important;border-radius:16px!important;box-shadow:var(--sh-shadow)!important}
+.card,.section,.welcome{padding:24px!important}
+h1,h2,h3,h4{color:var(--sh-navy)}
+h3{color:var(--sh-blue)}
+button,.btn{border-radius:10px!important;font-family:inherit;transition:transform .2s,box-shadow .2s,filter .2s}
+button:not(:disabled):hover,.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #079b9b25}
+button:not(.logout):not(.delete):not(.danger):not(.back):not(.secondary){background:linear-gradient(110deg,#087e91,#09aaa0);color:#fff}
+input,select,textarea{border:1px solid var(--sh-border)!important;border-radius:10px!important;background:#fbfdfe!important;font-family:inherit!important;transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sh-teal)!important;box-shadow:0 0 0 3px #079b9b18!important}
+label{color:#455a6d}
+table{border-collapse:separate!important;border-spacing:0;overflow:hidden;border-radius:10px}
+th{background:#eaf5f6!important;color:#075b67!important}
+td,th{border-bottom:1px solid var(--sh-border)!important;padding:13px!important}
+tr:hover td{background:#f8fbfc}
+.logout,.delete,.danger{background:#d64550!important;color:#fff!important}
+.back{background:#fff!important;color:var(--sh-navy)!important;border:1px solid var(--sh-border)!important}
+.secondary,.refresh{background:#2563eb!important;color:white!important}
+.hidden{display:none!important}
+@media(max-width:700px){header{padding:15px 4%!important} .container,main{padding-left:14px!important;padding-right:14px!important;margin-top:20px!important}.card,.section,.welcome{padding:18px!important}}
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></head>
+<body>
+<div class="container">
+<h2>SMART HOSPITAL</h2>
+<h3>Patient Private Dashboard</h3>
+<p id="welcome">Checking login...</p>
+
+<div id="dashboard" style="display:none">
+<h3>Book Appointment</h3>
+<form id="bookingForm">
+<input id="patientName" placeholder="Patient Name" required>
+<input id="phone" readonly>
+<select id="doctor" required>
+<option value="">Select Doctor</option>
+</select>
+<label>Appointment Date</label>
+<input id="date" type="date" required>
+<label>Appointment Time</label>
+<input id="time" type="time" required>
+<textarea id="reason" placeholder="Reason for Appointment" required></textarea>
+<button type="submit">Book Appointment</button>
+</form>
+
+<div id="msg"></div>
+<hr>
+<h3>My Appointments</h3>
+<div id="myAppointments">Loading appointments...</div>
+<button class="logout" id="logoutBtn">Logout</button>
+</div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {getAuth,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import {
+ getFirestore,doc,getDoc,collection,getDocs,query,where,
+ addDoc,serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyBs2hpFSjbacxGoQgRtMOnOANgKTN_Nkn0",
+ authDomain:"smt-hospital-2.firebaseapp.com",
+ projectId:"smt-hospital-2",
+ storageBucket:"smt-hospital-2.firebasestorage.app",
+ messagingSenderId:"704315438706",
+ appId:"1:704315438706:web:0989f487fc90e52a5af4eb",
+ measurementId:"G-4V8NPEE097"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+let currentUser=null;
+let doctorMap={};
+
+const msg=document.getElementById("msg");
+const dateInput=document.getElementById("date");
+dateInput.min=new Date().toISOString().split("T")[0];
+
+function message(t,error=false){
+ msg.textContent=t;
+ msg.style.color=error?"#b00020":"#087e45";
+}
+
+onAuthStateChanged(auth,async(user)=>{
+ if(!user){
+  location.href="patients.html";
+  return;
+ }
+ currentUser=user;
+ try{
+  const snap=await getDoc(doc(db,"patients",user.uid));
+  if(!snap.exists()){
+   await signOut(auth);
+   location.href="patients.html";
+   return;
+  }
+  const patient=snap.data();
+  document.getElementById("welcome").textContent="Welcome, "+patient.name;
+  document.getElementById("patientName").value=patient.name;
+  document.getElementById("phone").value=patient.phone;
+  document.getElementById("dashboard").style.display="block";
+  await loadDoctors();
+  await loadAppointments();
+ }catch(error){
+  console.error(error);
+  document.getElementById("welcome").textContent="Unable to load your account: "+error.message;
+ }
+});
+
+async function loadDoctors(){
+ const select=document.getElementById("doctor");
+ const snap=await getDocs(collection(db,"publicDoctors"));
+ select.innerHTML='<option value="">Select Doctor</option>';
+ snap.forEach(d=>{
+  const x=d.data();
+  if(x.active===true){
+   doctorMap[d.id]=x;
+   const option=document.createElement("option");
+   option.value=d.id;
+   option.textContent=(x.name||"Doctor")+" - "+(x.specialization||"General");
+   select.appendChild(option);
+  }
+ });
+}
+
+document.getElementById("bookingForm").addEventListener("submit",async(e)=>{
+ e.preventDefault();
+ if(!currentUser)return;
+
+ const doctorId=document.getElementById("doctor").value;
+ const doctor=doctorMap[doctorId];
+ if(!doctor)return message("Please select a valid doctor.",true);
+
+ const date=document.getElementById("date").value;
+ const time=document.getElementById("time").value;
+
+ if(!date||!time)return message("Select date and time.",true);
+ if(date<new Date().toISOString().split("T")[0])
+  return message("Past dates are not allowed.",true);
+
+ try{
+  message("Booking appointment...");
+  await addDoc(collection(db,"appointments"),{
+   patientUid:currentUser.uid,
+   patientName:document.getElementById("patientName").value.trim(),
+   phone:document.getElementById("phone").value,
+   phoneE164:"+91"+document.getElementById("phone").value,
+   doctorId,
+   doctorName:doctor.name||"Doctor",
+   date,
+   time,
+   reason:document.getElementById("reason").value.trim(),
+   status:"Pending",
+   createdAt:serverTimestamp()
+  });
+  message("Appointment booked successfully!");
+  document.getElementById("reason").value="";
+  await loadAppointments();
+ }catch(error){
+  console.error(error);
+  message("Booking error: "+error.message,true);
+ }
+});
+
+async function loadAppointments(){
+ const list=document.getElementById("myAppointments");
+ list.textContent="Loading...";
+ try{
+  const q=query(
+   collection(db,"appointments"),
+   where("patientUid","==",currentUser.uid)
+  );
+  const snap=await getDocs(q);
+  list.innerHTML="";
+  if(snap.empty){
+   list.textContent="No appointments found.";
+   return;
+  }
+
+  const items=[];
+  snap.forEach(d=>items.push(d.data()));
+  items.sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+
+  items.forEach(a=>{
+   const card=document.createElement("div");
+   card.className="appointment";
+
+   const title=document.createElement("b");
+   title.textContent="Dr. "+a.doctorName;
+   const details=document.createElement("p");
+   details.textContent="Date: "+a.date+" | Time: "+a.time;
+   const status=document.createElement("p");
+   status.textContent="Status: "+a.status;
+   const reason=document.createElement("small");
+   reason.textContent="Reason: "+a.reason;
+
+   card.append(title,details,status,reason);
+   list.appendChild(card);
+  });
+ }catch(error){
+  console.error(error);
+  list.textContent="Error loading appointments: "+error.message;
+ }
+}
+
+document.getElementById("logoutBtn").addEventListener("click",async()=>{
+ await signOut(auth);
+ location.href="patients.html";
+});
+</script>
+</body>
+</html>

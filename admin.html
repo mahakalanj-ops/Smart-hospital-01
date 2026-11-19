@@ -1,0 +1,953 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Hospital Admin</title>
+
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#f1f5f9;color:#172033}
+header{
+ background:#102b46;color:white;padding:18px 22px;
+ display:flex;justify-content:space-between;align-items:center;
+ flex-wrap:wrap;gap:10px
+}
+header h2{margin:0}
+button{
+ border:0;padding:11px 16px;border-radius:7px;
+ cursor:pointer;font-weight:bold;background:#087e8b;color:white
+}
+button:hover{opacity:.9}
+button:disabled{opacity:.6;cursor:not-allowed}
+.logout{background:#e74c3c}
+.container{max-width:1200px;margin:auto;padding:20px}
+.card{
+ background:white;padding:20px;border-radius:12px;
+ box-shadow:0 3px 12px #00000010;margin-bottom:20px
+}
+.login-box{max-width:420px;margin:70px auto}
+input,select,textarea{
+ width:100%;padding:12px;margin:7px 0 14px;
+ border:1px solid #cbd5e1;border-radius:7px;
+ font-size:15px;background:white
+}
+textarea{min-height:75px;resize:vertical}
+label{font-weight:bold;font-size:14px}
+h3{color:#123b5d;margin-top:0}
+.hidden{display:none!important}
+.stats{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+ gap:15px;margin-bottom:20px
+}
+.stat{
+ background:white;padding:20px;border-radius:12px;
+ box-shadow:0 3px 12px #00000010
+}
+.stat h2{color:#087e8b;margin:8px 0}
+.stat p{margin:0;color:#64748b}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:12px
+}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{
+ padding:11px;border-bottom:1px solid #e2e8f0;
+ text-align:left;font-size:13px
+}
+th{background:#eaf2f8;color:#123b5d}
+.delete{background:#dc3545;padding:7px 10px}
+.success{color:#087e45;font-weight:bold}
+.error{color:#dc2626;font-weight:bold}
+.section-title{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;flex-wrap:wrap
+}
+.small{font-size:13px;color:#64748b}
+
+/* SMART HOSPITAL - UNIFIED PROFESSIONAL THEME */
+:root{--sh-navy:#102b46;--sh-blue:#176b87;--sh-teal:#079b9b;--sh-bg:#f3f7fa;--sh-text:#243b50;--sh-muted:#718397;--sh-border:#e1eaf0;--sh-shadow:0 12px 34px rgba(16,43,70,.075)}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif!important;background:var(--sh-bg)!important;color:var(--sh-text)!important;line-height:1.6}
+header{background:linear-gradient(110deg,var(--sh-navy),#17617a)!important;color:#fff!important;padding:17px max(4%,calc((100% - 1200px)/2))!important;box-shadow:0 5px 20px #102b4618}
+header h2{color:#fff}
+.container,main{max-width:1200px}
+.card,.section,.welcome,.stat,.invoice,.access-card{border:1px solid var(--sh-border)!important;border-radius:16px!important;box-shadow:var(--sh-shadow)!important}
+.card,.section,.welcome{padding:24px!important}
+h1,h2,h3,h4{color:var(--sh-navy)}
+h3{color:var(--sh-blue)}
+button,.btn{border-radius:10px!important;font-family:inherit;transition:transform .2s,box-shadow .2s,filter .2s}
+button:not(:disabled):hover,.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #079b9b25}
+button:not(.logout):not(.delete):not(.danger):not(.back):not(.secondary){background:linear-gradient(110deg,#087e91,#09aaa0);color:#fff}
+input,select,textarea{border:1px solid var(--sh-border)!important;border-radius:10px!important;background:#fbfdfe!important;font-family:inherit!important;transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sh-teal)!important;box-shadow:0 0 0 3px #079b9b18!important}
+label{color:#455a6d}
+table{border-collapse:separate!important;border-spacing:0;overflow:hidden;border-radius:10px}
+th{background:#eaf5f6!important;color:#075b67!important}
+td,th{border-bottom:1px solid var(--sh-border)!important;padding:13px!important}
+tr:hover td{background:#f8fbfc}
+.logout,.delete,.danger{background:#d64550!important;color:#fff!important}
+.back{background:#fff!important;color:var(--sh-navy)!important;border:1px solid var(--sh-border)!important}
+.secondary,.refresh{background:#2563eb!important;color:white!important}
+.hidden{display:none!important}
+@media(max-width:700px){header{padding:15px 4%!important} .container,main{padding-left:14px!important;padding-right:14px!important;margin-top:20px!important}.card,.section,.welcome{padding:18px!important}}
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></head>
+
+<body>
+
+<header>
+ <h2>🏥 Smart Hospital Admin</h2>
+ <div>
+  <span id="userRole"></span>
+  <button class="logout hidden" id="logoutBtn" onclick="logout()">Logout</button>
+ </div>
+</header>
+
+<!-- LOGIN -->
+<div class="container" id="loginSection">
+ <div class="card login-box">
+  <h2>Admin Login</h2>
+  <p class="small">Login using your Firebase Admin account.</p>
+
+  <label>Email Address</label>
+  <input type="email" id="loginEmail" placeholder="Enter email">
+
+  <label>Password</label>
+  <input type="password" id="loginPassword" placeholder="Enter password">
+
+  <button onclick="login()" style="width:100%">Login</button>
+  <p id="loginMessage"></p>
+ </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="container hidden" id="dashboard">
+
+ <div class="stats">
+  <div class="stat">
+   <p>Total Patients</p>
+   <h2 id="patientCount">0</h2>
+  </div>
+  <div class="stat">
+   <p>Total Doctors</p>
+   <h2 id="doctorCount">0</h2>
+  </div>
+  <div class="stat">
+   <p>Total Appointments</p>
+   <h2 id="appointmentCount">0</h2>
+  </div>
+  <div class="stat">
+   <p>Total Admins</p>
+   <h2 id="adminCount">0</h2>
+  </div>
+ </div>
+
+ <!-- OWNER PANEL -->
+ <div class="card hidden" id="ownerPanel">
+
+  <h2>⚙️ Owner Control Panel</h2>
+
+  <!-- DOCTOR REGISTRATION -->
+  <div class="card">
+   <h3>👨‍⚕️ Doctor Registration</h3>
+   <p class="small">
+    Doctor information will be saved in both doctors and publicDoctors.
+   </p>
+
+   <form id="doctorForm">
+
+    <div class="grid">
+     <div>
+      <label>Doctor Full Name *</label>
+      <input id="doctorName" required placeholder="Dr. Full Name">
+     </div>
+
+     <div>
+      <label>Specialization *</label>
+      <input id="specialization" required placeholder="e.g. Cardiologist">
+     </div>
+
+     <div>
+      <label>Qualification *</label>
+      <input id="qualification" required placeholder="MBBS, MD">
+     </div>
+
+     <div>
+      <label>Experience (Years) *</label>
+      <input id="experience" type="number" min="0" required placeholder="Experience">
+     </div>
+
+     <div>
+      <label>Phone Number *</label>
+      <input id="doctorPhone" type="tel" pattern="[0-9]{10}" maxlength="10" required placeholder="10 digit mobile number">
+     </div>
+
+     <div>
+      <label>Email Address</label>
+      <input id="doctorEmail" type="email" placeholder="doctor@example.com">
+     </div>
+
+     <div>
+      <label>Consultation Fees (₹) *</label>
+      <input id="fees" type="number" min="0" required placeholder="Consultation fees">
+     </div>
+
+     <div>
+      <label>Hospital Name *</label>
+      <input id="hospitalName" required placeholder="Hospital name">
+     </div>
+
+     <div>
+      <label>City *</label>
+      <input id="city" required placeholder="City">
+     </div>
+
+     <div>
+      <label>State *</label>
+      <input id="state" required value="Maharashtra">
+     </div>
+
+     <div>
+      <label>PIN Code *</label>
+      <input id="pincode" type="text" pattern="[0-9]{6}" maxlength="6" required placeholder="6 digit PIN code">
+     </div>
+    </div>
+
+    <label>Hospital Full Address *</label>
+    <textarea id="hospitalAddress" required placeholder="Enter complete hospital address"></textarea>
+
+    <button type="submit" id="doctorSubmitBtn">+ Register Doctor</button>
+    <p id="doctorMessage"></p>
+   </form>
+  </div>
+
+  <!-- CREATE ADMIN -->
+  <div class="card">
+   <h3>➕ Create New Admin</h3>
+
+   <form id="adminForm">
+    <label>Admin Name</label>
+    <input id="newAdminName" required placeholder="Admin name">
+
+    <label>Admin Email</label>
+    <input id="newAdminEmail" type="email" required placeholder="admin@example.com">
+
+    <label>Temporary Password</label>
+    <input id="newAdminPassword" type="password" minlength="6" required placeholder="Minimum 6 characters">
+
+    <button type="submit" id="adminSubmitBtn">Create Admin</button>
+    <p id="adminMessage"></p>
+   </form>
+  </div>
+
+  <!-- ADMIN LIST -->
+  <div class="card">
+   <h3>Admin Accounts</h3>
+   <div class="table-wrap">
+    <table>
+     <thead>
+      <tr><th>Name</th><th>Email</th><th>Status</th><th>UID</th></tr>
+     </thead>
+     <tbody id="adminTable"></tbody>
+    </table>
+   </div>
+  </div>
+
+ </div>
+
+ <!-- PATIENTS -->
+ <div class="card">
+  <div class="section-title">
+   <h3>👤 Patient Records</h3>
+   <input id="patientSearch" placeholder="Search patients..." oninput="filterTable('patients')" style="max-width:230px">
+  </div>
+  <div class="table-wrap">
+   <table>
+    <thead><tr>
+     <th>Name</th><th>Age</th><th>Gender</th><th>Phone</th><th>Disease</th><th>Action</th>
+    </tr></thead>
+    <tbody id="patientsTable"></tbody>
+   </table>
+  </div>
+ </div>
+
+ <!-- DOCTORS -->
+ <div class="card">
+  <div class="section-title">
+   <h3>👨‍⚕️ Doctor Records</h3>
+   <input id="doctorSearch" placeholder="Search doctors..." oninput="filterTable('doctors')" style="max-width:230px">
+  </div>
+  <div class="table-wrap">
+   <table>
+    <thead><tr>
+     <th>Name</th><th>Specialization</th><th>Qualification</th>
+     <th>Phone</th><th>Hospital</th><th>Address</th><th>Fees</th><th>Action</th>
+    </tr></thead>
+    <tbody id="doctorsTable"></tbody>
+   </table>
+  </div>
+ </div>
+
+ <!-- APPOINTMENTS -->
+ <div class="card">
+  <div class="section-title">
+   <h3>📅 Appointment Records</h3>
+   <input id="appointmentSearch" placeholder="Search appointments..." oninput="filterTable('appointments')" style="max-width:230px">
+  </div>
+  <div class="table-wrap">
+   <table>
+    <thead><tr>
+     <th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th>
+    </tr></thead>
+    <tbody id="appointmentsTable"></tbody>
+   </table>
+  </div>
+ </div>
+
+ <p id="dashboardMessage" class="small"></p>
+</div>
+
+<script type="module">
+
+import {initializeApp,getApps}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+ getAuth,
+ signInWithEmailAndPassword,
+ onAuthStateChanged,
+ signOut,
+ createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+ getFirestore,
+ collection,
+ getDocs,
+ doc,
+ getDoc,
+ setDoc,
+ deleteDoc,
+ serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+ apiKey: "AIzaSyBs2hpFSjbacxGoQgRtMOnOANgKTN_Nkn0",
+ authDomain: "smt-hospital-2.firebaseapp.com",
+ projectId: "smt-hospital-2",
+ storageBucket: "smt-hospital-2.firebasestorage.app",
+ messagingSenderId: "704315438706",
+ appId: "1:704315438706:web:0989f487fc90e52a5af4eb",
+ measurementId: "G-4V8NPEE097"
+};
+
+const app = getApps().find(a => a.name === "[DEFAULT]")
+ || initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const OWNER_UID = "eo6ljmtb7GMjCfNtUEzeDiR4slf1";
+
+let currentRole = "";
+
+let allRecords = {
+ patients: [],
+ doctors: [],
+ appointments: []
+};
+
+const $ = id => document.getElementById(id);
+
+/* SAFE TEXT */
+
+function safe(value) {
+ if(value === null || value === undefined) return "";
+
+ if(typeof value === "object" && value.toDate) {
+  return value.toDate().toLocaleString();
+ }
+
+ if(typeof value === "object") return JSON.stringify(value);
+
+ return String(value);
+}
+
+function escapeHTML(value) {
+ return safe(value).replace(/[&<>"']/g, c => ({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+ }[c]));
+}
+
+function message(id,text,type="success") {
+ $(id).className = type;
+ $(id).textContent = text;
+}
+
+/* LOGIN */
+
+window.login = async function() {
+
+ const email = $("loginEmail").value.trim();
+ const password = $("loginPassword").value;
+
+ if(!email || !password) {
+  message("loginMessage","Enter email and password.","error");
+  return;
+ }
+
+ try {
+  await signInWithEmailAndPassword(auth,email,password);
+ } catch(error) {
+  console.error(error);
+  message("loginMessage","Login failed: "+error.message,"error");
+ }
+};
+
+/* LOGOUT */
+
+window.logout = async function() {
+ await signOut(auth);
+};
+
+/* AUTH CHECK */
+
+onAuthStateChanged(auth,async user => {
+
+ if(!user) {
+  currentRole = "";
+
+  $("loginSection").classList.remove("hidden");
+  $("dashboard").classList.add("hidden");
+  $("logoutBtn").classList.add("hidden");
+
+  $("userRole").textContent = "";
+  return;
+ }
+
+ try {
+
+  if(user.uid === OWNER_UID) {
+   currentRole = "OWNER";
+
+  } else {
+
+   const adminSnap = await getDoc(
+    doc(db,"admins",user.uid)
+   );
+
+   if(!adminSnap.exists() ||
+      adminSnap.data().active !== true) {
+
+    await signOut(auth);
+
+    message(
+     "loginMessage",
+     "You are not an authorized admin.",
+     "error"
+    );
+
+    return;
+   }
+
+   currentRole = "ADMIN";
+  }
+
+  $("loginSection").classList.add("hidden");
+  $("dashboard").classList.remove("hidden");
+  $("logoutBtn").classList.remove("hidden");
+
+  $("userRole").textContent = currentRole;
+
+  $("ownerPanel").classList.toggle(
+   "hidden",
+   currentRole !== "OWNER"
+  );
+
+  await loadAllData();
+
+ } catch(error) {
+
+  console.error(error);
+
+  $("dashboardMessage").textContent =
+   "Access error: "+error.message;
+ }
+});
+
+/* SYNC OLD DOCTORS TO PUBLIC DOCTORS */
+
+async function syncPublicDoctors() {
+
+ const publicSnapshot = await getDocs(
+  collection(db,"publicDoctors")
+ );
+
+ const existingPublic = {};
+
+ publicSnapshot.forEach(d => {
+  existingPublic[d.id] = d.data();
+ });
+
+ for(const doctor of allRecords.doctors) {
+
+  const oldPublic = existingPublic[doctor.id] || {};
+
+  await setDoc(
+   doc(db,"publicDoctors",doctor.id),
+   {
+    name: doctor.name || "",
+    specialization: doctor.specialization || "",
+    qualification: doctor.qualification || "",
+    hospitalName: doctor.hospitalName || "",
+    city: doctor.city || "",
+    fees: Number(doctor.fees || 0),
+
+    active: typeof oldPublic.active === "boolean"
+      ? oldPublic.active
+      : true,
+
+    createdAt: doctor.createdAt || serverTimestamp()
+   },
+   {merge:true}
+  );
+ }
+}
+
+/* LOAD DASHBOARD DATA */
+
+async function loadAllData() {
+
+ try {
+
+  $("dashboardMessage").textContent = "Loading records...";
+
+  for(const name of ["patients","doctors","appointments"]) {
+
+   const snapshot = await getDocs(
+    collection(db,name)
+   );
+
+   allRecords[name] = snapshot.docs.map(d => ({
+    id:d.id,
+    ...d.data()
+   }));
+  }
+
+  // Sync existing doctors for owner
+  if(currentRole === "OWNER") {
+   await syncPublicDoctors();
+  }
+
+  $("patientCount").textContent =
+   allRecords.patients.length;
+
+  $("doctorCount").textContent =
+   allRecords.doctors.length;
+
+  $("appointmentCount").textContent =
+   allRecords.appointments.length;
+
+  renderTable("patients");
+  renderTable("doctors");
+  renderTable("appointments");
+
+  if(currentRole === "OWNER") {
+   await loadAdmins();
+  }
+
+  $("dashboardMessage").textContent =
+   "Records updated successfully.";
+
+ } catch(error) {
+
+  console.error(error);
+
+  $("dashboardMessage").textContent =
+   "Data loading error: "+error.message;
+ }
+}
+
+/* DISPLAY TABLES */
+
+function renderTable(type) {
+
+ const tbody = $(type+"Table");
+ const rows = allRecords[type];
+
+ if(!rows.length) {
+  tbody.innerHTML =
+   `<tr><td colspan="10">No records found.</td></tr>`;
+  return;
+ }
+
+ tbody.innerHTML = rows.map(r => {
+
+  const del = currentRole === "OWNER"
+   ? `<button class="delete" onclick="deleteRecord('${type}','${r.id}')">Delete</button>`
+   : "—";
+
+  if(type === "patients") {
+
+   return `<tr>
+    <td>${escapeHTML(r.name)}</td>
+    <td>${escapeHTML(r.age)}</td>
+    <td>${escapeHTML(r.gender)}</td>
+    <td>${escapeHTML(r.phone)}</td>
+    <td>${escapeHTML(r.disease)}</td>
+    <td>${del}</td>
+   </tr>`;
+  }
+
+  if(type === "doctors") {
+
+   return `<tr>
+    <td>${escapeHTML(r.name)}</td>
+    <td>${escapeHTML(r.specialization)}</td>
+    <td>${escapeHTML(r.qualification)}</td>
+    <td>${escapeHTML(r.phone)}</td>
+    <td>${escapeHTML(r.hospitalName)}</td>
+    <td>${escapeHTML(r.hospitalAddress)}, ${escapeHTML(r.city)}</td>
+    <td>₹${escapeHTML(r.fees)}</td>
+    <td>${del}</td>
+   </tr>`;
+  }
+
+  return `<tr>
+   <td>${escapeHTML(r.patientName || r.patient || r.name)}</td>
+   <td>${escapeHTML(r.doctorName || r.doctor)}</td>
+   <td>${escapeHTML(r.date)}</td>
+   <td>${escapeHTML(r.time)}</td>
+   <td>${escapeHTML(r.status)}</td>
+   <td>${del}</td>
+  </tr>`;
+
+ }).join("");
+}
+
+/* SEARCH */
+
+window.filterTable = function(type) {
+
+ const search = $(
+  type==="appointments"
+   ? "appointmentSearch"
+   : type==="doctors"
+    ? "doctorSearch"
+    : "patientSearch"
+ ).value.toLowerCase();
+
+ const filtered = allRecords[type].filter(r =>
+  Object.values(r).some(v =>
+   safe(v).toLowerCase().includes(search)
+  )
+ );
+
+ const old = allRecords[type];
+
+ allRecords[type] = filtered;
+
+ renderTable(type);
+
+ allRecords[type] = old;
+};
+
+/* DOCTOR REGISTRATION */
+
+$("doctorForm").addEventListener("submit",async e => {
+
+ e.preventDefault();
+
+ const user = auth.currentUser;
+
+ if(!user || user.uid !== OWNER_UID) {
+
+  message(
+   "doctorMessage",
+   "Only Owner can register doctors.",
+   "error"
+  );
+
+  return;
+ }
+
+ const phone = $("doctorPhone").value.trim();
+ const pincode = $("pincode").value.trim();
+
+ if(!/^[0-9]{10}$/.test(phone)) {
+
+  message(
+   "doctorMessage",
+   "Enter a valid 10 digit phone number.",
+   "error"
+  );
+
+  return;
+ }
+
+ if(!/^[0-9]{6}$/.test(pincode)) {
+
+  message(
+   "doctorMessage",
+   "Enter a valid 6 digit PIN code.",
+   "error"
+  );
+
+  return;
+ }
+
+ const doctorData = {
+
+  name: $("doctorName").value.trim(),
+
+  specialization: $("specialization").value.trim(),
+
+  qualification: $("qualification").value.trim(),
+
+  experience: Number($("experience").value),
+
+  phone: phone,
+
+  email: $("doctorEmail").value.trim(),
+
+  fees: Number($("fees").value),
+
+  hospitalName: $("hospitalName").value.trim(),
+
+  hospitalAddress: $("hospitalAddress").value.trim(),
+
+  city: $("city").value.trim(),
+
+  state: $("state").value.trim(),
+
+  pincode: pincode,
+
+  createdAt: serverTimestamp()
+ };
+
+ $("doctorSubmitBtn").disabled = true;
+ $("doctorSubmitBtn").textContent = "Registering...";
+
+ try {
+
+  // Common document ID
+  const doctorRef = doc(
+   collection(db,"doctors")
+  );
+
+  // Save private doctor data
+  await setDoc(
+   doctorRef,
+   doctorData
+  );
+
+  // Save public doctor data
+  await setDoc(
+   doc(db,"publicDoctors",doctorRef.id),
+   {
+    name: doctorData.name,
+    specialization: doctorData.specialization,
+    qualification: doctorData.qualification,
+    hospitalName: doctorData.hospitalName,
+    city: doctorData.city,
+    fees: doctorData.fees,
+    active: true,
+    createdAt: serverTimestamp()
+   }
+  );
+
+  message(
+   "doctorMessage",
+   "Doctor registered successfully in both collections! ID: "+doctorRef.id
+  );
+
+  $("doctorForm").reset();
+
+  $("state").value = "Maharashtra";
+
+  await loadAllData();
+
+ } catch(error) {
+
+  console.error("Doctor Registration Error:",error);
+
+  message(
+   "doctorMessage",
+   "Doctor registration error: "+error.message,
+   "error"
+  );
+
+ } finally {
+
+  $("doctorSubmitBtn").disabled = false;
+
+  $("doctorSubmitBtn").textContent =
+   "+ Register Doctor";
+ }
+});
+
+/* CREATE ADMIN */
+
+$("adminForm").addEventListener("submit",async e => {
+
+ e.preventDefault();
+
+ if(!auth.currentUser ||
+    auth.currentUser.uid !== OWNER_UID) {
+
+  message(
+   "adminMessage",
+   "Only Owner can create admins.",
+   "error"
+  );
+
+  return;
+ }
+
+ const name = $("newAdminName").value.trim();
+
+ const email = $("newAdminEmail").value.trim();
+
+ const password = $("newAdminPassword").value;
+
+ $("adminSubmitBtn").disabled = true;
+
+ try {
+
+  let secondaryApp = getApps().find(
+   a => a.name === "SecondaryAdminApp"
+  );
+
+  if(!secondaryApp) {
+   secondaryApp = initializeApp(
+    firebaseConfig,
+    "SecondaryAdminApp"
+   );
+  }
+
+  const secondaryAuth = getAuth(secondaryApp);
+
+  const credential = await createUserWithEmailAndPassword(
+   secondaryAuth,
+   email,
+   password
+  );
+
+  await setDoc(
+   doc(db,"admins",credential.user.uid),
+   {
+    name: name,
+    email: email,
+    active: true,
+    createdAt: serverTimestamp()
+   }
+  );
+
+  await signOut(secondaryAuth);
+
+  message(
+   "adminMessage",
+   "Admin created successfully!"
+  );
+
+  $("adminForm").reset();
+
+  await loadAdmins();
+
+ } catch(error) {
+
+  console.error(error);
+
+  message(
+   "adminMessage",
+   "Admin creation error: "+error.message,
+   "error"
+  );
+
+ } finally {
+
+  $("adminSubmitBtn").disabled = false;
+ }
+});
+
+/* LOAD ADMIN LIST */
+
+async function loadAdmins() {
+
+ const snapshot = await getDocs(
+  collection(db,"admins")
+ );
+
+ $("adminCount").textContent = snapshot.size;
+
+ $("adminTable").innerHTML =
+  snapshot.docs.map(d => {
+
+   const a = d.data();
+
+   return `<tr>
+    <td>${escapeHTML(a.name)}</td>
+    <td>${escapeHTML(a.email)}</td>
+    <td>${a.active === true ? "Active" : "Inactive"}</td>
+    <td>${escapeHTML(d.id)}</td>
+   </tr>`;
+
+  }).join("") ||
+  `<tr><td colspan="4">No admins found.</td></tr>`;
+}
+
+/* DELETE RECORD */
+
+window.deleteRecord = async function(type,id) {
+
+ if(!auth.currentUser ||
+    auth.currentUser.uid !== OWNER_UID) {
+
+  alert("Only Owner can delete records.");
+  return;
+ }
+
+ if(!confirm("Are you sure you want to delete this record?")) {
+  return;
+ }
+
+ try {
+
+  if(type === "doctors") {
+
+   // Delete from both collections
+   await deleteDoc(doc(db,"doctors",id));
+
+   await deleteDoc(doc(db,"publicDoctors",id));
+
+  } else {
+
+   await deleteDoc(doc(db,type,id));
+  }
+
+  alert("Record deleted successfully.");
+
+  await loadAllData();
+
+ } catch(error) {
+
+  console.error(error);
+
+  alert("Delete error: "+error.message);
+ }
+};
+
+</script>
+
+</body>
+</html>
